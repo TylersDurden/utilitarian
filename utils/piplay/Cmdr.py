@@ -34,6 +34,17 @@ def usage():
     print "Mode List: "
 
 
+def nxconx():
+    cmd = 'iw dev wlan0 scan dump'
+    cmd2 = 'nmap -sU -p161 --script snmp-brute' \
+           ' --script-args snmplist=community.lst 192.168.1.0/24'
+    smb ='nmap -p 445 --script smb-os-discovery 192.168.1.0/24'
+    os.system(cmd+' >> wlanscan.txt')
+    wlan_scan = swap('wlanscan.txt')
+    os.system(cmd2)
+    os.system(smb)
+
+
 def main():
     if len(sys.argv) < 2:
         usage()
@@ -42,6 +53,8 @@ def main():
             dictionaries = create_dictionary()
         if sys.argv[1] == '-record':
             record_from_mic()
+        if sys.argv[1] == '-nx':
+            nxconx()
 
 
 if __name__ == '__main__':
